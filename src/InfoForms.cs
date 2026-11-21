@@ -14,6 +14,17 @@ namespace Copixy
         /// <summary>Project website. Leave empty to hide the link in About.</summary>
         public const string Website = "https://github.com/Deformarium/copixy";
         public const string Donate = "https://boosty.to/deformarium/donate";
+
+        // Set when a web link was opened from Help/About: the windows above the
+        // browser (About, Settings over a capture, the capture itself) step aside.
+        public static bool LeaveRequested;
+
+        public static void OpenLink(string url, Form from)
+        {
+            try { Process.Start(url); } catch { return; }
+            LeaveRequested = true;
+            if (from != null) from.Close();
+        }
         public const string Description =
             "Lightweight screenshot tool for Windows with annotations, a precision magnifier and pixel-exact area selection.";
 
@@ -233,7 +244,7 @@ namespace Copixy
             if (!string.IsNullOrEmpty(AppInfo.Website))
             {
                 var link = new LinkLabel { Text = AppInfo.Website.Replace("https://", "").Replace("http://", ""), Location = new Point(24, y), AutoSize = true };
-                link.LinkClicked += delegate { try { Process.Start(AppInfo.Website); } catch { } };
+                link.LinkClicked += delegate { AppInfo.OpenLink(AppInfo.Website, this); };
                 Controls.Add(link);
                 y += 26;
             }
@@ -241,7 +252,7 @@ namespace Copixy
             if (!string.IsNullOrEmpty(AppInfo.Donate))
             {
                 var donate = new LinkLabel { Text = "Support Copixy on Boosty", Location = new Point(24, y), AutoSize = true };
-                donate.LinkClicked += delegate { try { Process.Start(AppInfo.Donate); } catch { } };
+                donate.LinkClicked += delegate { AppInfo.OpenLink(AppInfo.Donate, this); };
                 Controls.Add(donate);
                 y += 26;
             }

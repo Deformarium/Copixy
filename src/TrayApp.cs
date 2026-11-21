@@ -206,6 +206,14 @@ namespace Copixy
                 else settingsForm.ShowDialog();
             }
             settingsForm = null;
+            if (AppInfo.LeaveRequested)
+            {
+                AppInfo.LeaveRequested = false;
+                // A link was opened from About: end the capture so the browser is visible.
+                var c = capture;
+                if (c != null && !c.IsDisposed)
+                    c.BeginInvoke((MethodInvoker)delegate { if (!c.IsDisposed) c.Close(); });
+            }
             RegisterHotkey();
             if (!hotkeyOk)
             {

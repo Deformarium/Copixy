@@ -124,7 +124,12 @@ namespace Copixy
             help.LinkClicked += delegate { using (var f = new HelpForm()) f.ShowDialog(this); };
             Controls.Add(help);
             var about = new LinkLabel { Text = "About", Location = new Point(64, 644), AutoSize = true };
-            about.LinkClicked += delegate { using (var f = new AboutForm()) f.ShowDialog(this); };
+            about.LinkClicked += delegate
+            {
+                using (var f = new AboutForm()) f.ShowDialog(this);
+                // Opened over a capture (TopMost): get out of the browser's way.
+                if (AppInfo.LeaveRequested && TopMost) { DialogResult = DialogResult.Cancel; Close(); }
+            };
             Controls.Add(about);
 
             var ok = new Button { Text = "Save", Location = new Point(300, 638), Size = new Size(84, 28) };
