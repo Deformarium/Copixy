@@ -16,6 +16,12 @@ Requirements: Windows 10 or 11 (64-bit or 32-bit). No installation needed — ju
 > On first run Windows SmartScreen may show "Windows protected your PC" because the file is not code-signed.
 > Click **More info → Run anyway**.
 
+## Support
+
+Copixy is free. If it saves you time, you can support its development:
+
+**[☕ Support on Boosty](https://boosty.to/deformarium/donate)**
+
 ## Getting started
 Run `Copixy.exe` — it goes to the system tray. Take a screenshot by:
 - pressing the hotkey (**PrtSc** by default, configurable in Settings);
@@ -90,7 +96,7 @@ Open from the tray menu (*Settings…*) or the gear button on the toolbar.
 - Text font (bundled Inter by default, or any installed font).
 - Magnifier: zoom (2–16×) and diameter (100–800 px).
 
-The Settings window also has **Help** (all shortcuts) and **About** links.
+The Settings window also has **Help** (all shortcuts) and **About** links (About includes a link to support the project on Boosty).
 
 Settings are stored in `%APPDATA%\Copixy\settings.ini`.
 

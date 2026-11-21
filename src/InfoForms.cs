@@ -13,6 +13,7 @@ namespace Copixy
         public const string Creator = "Deformarium";
         /// <summary>Project website. Leave empty to hide the link in About.</summary>
         public const string Website = "https://github.com/Deformarium/copixy";
+        public const string Donate = "https://boosty.to/deformarium/donate";
         public const string Description =
             "Lightweight screenshot tool for Windows with annotations, a precision magnifier and pixel-exact area selection.";
 
@@ -190,7 +191,7 @@ namespace Copixy
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterParent;
             BackColor = Color.White;
-            ClientSize = new Size(400, 334);
+            ClientSize = new Size(400, 360);
             try { Icon = Res.AppIcon(32); } catch { }
 
             int y = 20;
@@ -237,6 +238,14 @@ namespace Copixy
                 y += 26;
             }
 
+            if (!string.IsNullOrEmpty(AppInfo.Donate))
+            {
+                var donate = new LinkLabel { Text = "Support Copixy on Boosty", Location = new Point(24, y), AutoSize = true };
+                donate.LinkClicked += delegate { try { Process.Start(AppInfo.Donate); } catch { } };
+                Controls.Add(donate);
+                y += 26;
+            }
+
             Controls.Add(new Label
             {
                 Text = "Font: Inter — SIL Open Font License 1.1",
@@ -245,7 +254,7 @@ namespace Copixy
                 ForeColor = Color.FromArgb(120, 120, 130)
             });
 
-            var ok = new Button { Text = "OK", Size = new Size(84, 28), Location = new Point(292, 292), DialogResult = DialogResult.OK, BackColor = SystemColors.Control };
+            var ok = new Button { Text = "OK", Size = new Size(84, 28), Location = new Point(292, 318), DialogResult = DialogResult.OK, BackColor = SystemColors.Control };
             Controls.Add(ok);
             AcceptButton = ok;
             CancelButton = ok;
