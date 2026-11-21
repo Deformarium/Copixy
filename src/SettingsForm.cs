@@ -17,7 +17,7 @@ namespace Copixy
         TrackBar trackQ;
         Label lblQ, lblPreview;
         NumericUpDown numCounter;
-        ComboBox cmbFont;
+        ComboBox cmbFont, cmbUiSize;
         NumericUpDown numZoom, numZoomSize;
 
         public SettingsForm(Settings s)
@@ -33,11 +33,11 @@ namespace Copixy
             MinimizeBox = false;
             ShowInTaskbar = true;
             StartPosition = FormStartPosition.CenterScreen;
-            ClientSize = new Size(484, 620);
+            ClientSize = new Size(484, 650);
             try { Icon = Res.AppIcon(32); } catch { }
 
             // ---------- General ----------
-            var gGeneral = Group("General", 12, 10, 460, 140);
+            var gGeneral = Group("General", 12, 10, 460, 170);
             chkAutoStart = Check(gGeneral, "Start with Windows", 16, 24, S.AutoStart);
             chkTray = Check(gGeneral, "Minimize to system tray on startup", 16, 48, S.StartInTray);
             chkToolsMenu = Check(gGeneral, "Hide drawing tools under a dropdown (chevron) on the toolbar", 16, 72, S.ToolsInMenu);
@@ -46,10 +46,15 @@ namespace Copixy
             hotkey.Set(S.HotKey, S.HotMods, S.HotWin);
             gGeneral.Controls.Add(hotkey);
             var hint = Lbl(gGeneral, "press a key combination", 338, 106);
+            Lbl(gGeneral, "Toolbar size:", 16, 140);
+            cmbUiSize = new ComboBox { Location = new Point(140, 136), Width = 190, DropDownStyle = ComboBoxStyle.DropDownList };
+            cmbUiSize.Items.AddRange(new object[] { "Normal", "Compact" });
+            cmbUiSize.SelectedIndex = Settings.Clamp(S.UiSize, 0, 1);
+            gGeneral.Controls.Add(cmbUiSize);
             hint.ForeColor = SystemColors.GrayText;
 
             // ---------- Saving ----------
-            var gSave = Group("Saving", 12, 158, 460, 280);
+            var gSave = Group("Saving", 12, 188, 460, 280);
             Lbl(gSave, "Folder:", 16, 30);
             txtFolder = new TextBox { Location = new Point(140, 26), Width = 222, Text = S.SaveFolder };
             gSave.Controls.Add(txtFolder);
@@ -93,7 +98,7 @@ namespace Copixy
             rbPng.CheckedChanged += upd; numCounter.ValueChanged += upd;
 
             // ---------- Text ----------
-            var gText = Group("Text annotations", 12, 446, 460, 60);
+            var gText = Group("Text annotations", 12, 476, 460, 60);
             Lbl(gText, "Font:", 16, 28);
             cmbFont = new ComboBox { Location = new Point(140, 24), Width = 304, DropDownStyle = ComboBoxStyle.DropDownList, MaxDropDownItems = 20 };
             foreach (var f in Res.FamilyNames()) cmbFont.Items.Add(f);
@@ -103,7 +108,7 @@ namespace Copixy
             gText.Controls.Add(cmbFont);
 
             // ---------- Magnifier ----------
-            var gZoom = Group("Magnifier (hold Z in capture mode)", 12, 514, 460, 60);
+            var gZoom = Group("Magnifier (hold Z in capture mode)", 12, 544, 460, 60);
             Lbl(gZoom, "Zoom:", 16, 28);
             numZoom = new NumericUpDown { Location = new Point(140, 24), Width = 60, Minimum = 2, Maximum = 16, Value = Settings.Clamp(S.ZoomFactor, 2, 16) };
             gZoom.Controls.Add(numZoom);
@@ -114,31 +119,15 @@ namespace Copixy
             Lbl(gZoom, "px", 390, 28);
 
             // ---------- Buttons ----------
-            var about = new LinkLabel { Text = "About", Location = new Point(14, 590), AutoSize = true };
-            about.LinkClicked += delegate
-            {
-                MessageBox.Show(this,
-                    "Copixy " + Application.ProductVersion + "\n\n" +
-                    "Font: Inter (rsms.me/inter), SIL Open Font License 1.1.\n\n" +
-                    "Capture mode shortcuts:\n" +
-                    "Ctrl+C / Enter / double-click — copy\n" +
-                    "Ctrl+S — save, Ctrl+Shift+S — save without dialog\n" +
-                    "Ctrl+Z / Ctrl+Y — undo / redo\n" +
-                    "M — move area, L line, D dashed, P pencil,\n" +
-                    "R rectangle, O ellipse, T text, C cursor, E eraser, A arrowhead\n" +
-                    "Delete — erase all drawings\n" +
-                    "Hold Z or the magnifier button — magnifier (right-click exits)\n" +
-                    "1…9, 0 — opacity 10…90 %, 100 %\n" +
-                    "Hold Space + drag — move area with any tool\n" +
-                    "Arrows — move area, Ctrl+arrows — resize\n" +
-                    "Mouse wheel — thickness / text size / eraser size\n" +
-                    "Right-click — drop tool / exit, Esc — exit",
-                    "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            };
+            var help = new LinkLabel { Text = "Help", Location = new Point(14, 620), AutoSize = true };
+            help.LinkClicked += delegate { using (var f = new HelpForm()) f.ShowDialog(this); };
+            Controls.Add(help);
+            var about = new LinkLabel { Text = "About", Location = new Point(64, 620), AutoSize = true };
+            about.LinkClicked += delegate { using (var f = new AboutForm()) f.ShowDialog(this); };
             Controls.Add(about);
 
-            var ok = new Button { Text = "Save", Location = new Point(300, 584), Size = new Size(84, 28) };
-            var cancel = new Button { Text = "Cancel", Location = new Point(388, 584), Size = new Size(84, 28), DialogResult = DialogResult.Cancel };
+            var ok = new Button { Text = "Save", Location = new Point(300, 614), Size = new Size(84, 28) };
+            var cancel = new Button { Text = "Cancel", Location = new Point(388, 614), Size = new Size(84, 28), DialogResult = DialogResult.Cancel };
             ok.Click += delegate { if (Apply()) { DialogResult = DialogResult.OK; Close(); } };
             Controls.Add(ok);
             Controls.Add(cancel);
@@ -215,6 +204,7 @@ namespace Copixy
             S.AutoStart = chkAutoStart.Checked;
             S.StartInTray = chkTray.Checked;
             S.ToolsInMenu = chkToolsMenu.Checked;
+            S.UiSize = Math.Max(0, cmbUiSize.SelectedIndex);
             S.HotKey = hotkey.Key;
             S.HotMods = hotkey.Mods;
             S.HotWin = hotkey.Win;

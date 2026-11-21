@@ -7,8 +7,8 @@ using System.Windows.Forms;
 [assembly: AssemblyProduct("Copixy")]
 [assembly: AssemblyDescription("Screen capture tool")]
 [assembly: AssemblyCompany("Deformarium")]
-[assembly: AssemblyVersion("1.3.0.0")]
-[assembly: AssemblyFileVersion("1.3.0.0")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]
 
 namespace Copixy
 {

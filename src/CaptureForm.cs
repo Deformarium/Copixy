@@ -177,7 +177,7 @@ namespace Copixy
             tipTimer.Tick += delegate { tipTimer.Stop(); if (hover != null && hover.Tip != null) { tipShow = true; Redraw(); } };
 
             Point c = Cursor.Position;
-            scale = Native.ScaleAt(c);
+            scale = Native.ScaleAt(c) * S.UiFactor;
             UpdateHint(new Point(c.X - vs.X, c.Y - vs.Y));
         }
 
@@ -1153,7 +1153,7 @@ namespace Copixy
             Screen scr = Screen.FromRectangle(selScr);
             Rectangle mon = scr.Bounds;
             mon.Offset(-vs.X, -vs.Y);
-            scale = Native.ScaleAt(new Point(scr.Bounds.X + scr.Bounds.Width / 2, scr.Bounds.Y + scr.Bounds.Height / 2));
+            scale = Native.ScaleAt(new Point(scr.Bounds.X + scr.Bounds.Width / 2, scr.Bounds.Y + scr.Bounds.Height / 2)) * S.UiFactor;
 
             BuildItems();
             int pad = Sc(5), gap = Sc(8), rowGap = Sc(6);

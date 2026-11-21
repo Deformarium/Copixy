@@ -1,40 +1,33 @@
 <svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<rect x="16" y="16" width="224" height="224" rx="18" fill="url(#paint0_linear_19179_27408)"/>
-<rect x="12" y="12" width="232" height="232" rx="22" stroke="black" stroke-opacity="0.8" stroke-width="8"/>
-<rect x="19" y="19" width="218" height="218" rx="15" stroke-width="6" stroke="url(#paint1_linear_19179_27408)"/>
-<g filter="url(#filter0_d_19179_27408)">
-<use xlink:href="#stroke0_19179_27408" fill="url(#paint2_linear_19179_27408)"/>
-<mask id="stroke1_19179_27408" maskUnits="userSpaceOnUse" x="29" y="29" width="198" height="198" fill="black">
-<rect fill="white" x="29" y="29" width="198" height="198"/>
-<use xlink:href="#stroke0_19179_27408"/>
+<rect x="16" y="16" width="224" height="224" rx="18" fill="url(#paint0_linear_1_587)"/>
+<rect x="13" y="13" width="230" height="230" rx="21" stroke="black" stroke-opacity="0.8" stroke-width="6"/>
+<g filter="url(#filter0_d_1_587)">
+<use xlink:href="#stroke0_1_587" fill="url(#paint1_linear_1_587)"/>
+<mask id="stroke1_1_587" maskUnits="userSpaceOnUse" x="27" y="27" width="202" height="202" fill="black">
+<rect fill="white" x="27" y="27" width="202" height="202"/>
+<use xlink:href="#stroke0_1_587"/>
 </mask>
-<path d="M47 209H91V221H42C38.134 221 35 217.866 35 214V165H47V209ZM221 214C221 217.866 217.866 221 214 221H165V209H209V165H221V214ZM134 89.459C150.735 92.043 163.957 105.265 166.541 122H182.999V134H166.541C163.957 150.735 150.735 163.956 134 166.54V183H122V166.54C105.265 163.956 92.043 150.735 89.459 134H72.999V122H89.459C92.043 105.265 105.265 92.043 122 89.459V73H134V89.459ZM128 101C113.088 101 101 113.088 101 128C101 142.912 113.088 155 128 155C142.912 155 155 142.912 155 128C155 113.088 142.912 101 128 101ZM91 47H47V91H35V42C35 38.134 38.134 35 42 35H91V47ZM214 35C217.866 35 221 38.134 221 42V91H209V47H165V35H214Z" stroke-width="12" stroke="#330069" stroke-opacity="0.3" mask="url(#stroke1_19179_27408)"/>
+<path d="M43 213H74V223H39C35.6863 223 33 220.314 33 217V182H43V213ZM223 217C223 220.314 220.314 223 217 223H182V213H213V182H223V217ZM134 64.2793C155.411 66.2702 173.761 78.807 183.806 96.6465L173.065 102.04C164.08 86.4754 147.264 76 128 76C99.2812 76 76 99.2812 76 128C76 156.719 99.2812 180 128 180C146.944 180 163.52 169.869 172.61 154.73L183.361 160.129C173.226 177.555 155.099 189.758 134 191.72V207H122V191.721C91.4427 188.879 67.1205 164.557 64.2793 134H49V122H64.2793C67.1205 91.4427 91.4427 67.1195 122 64.2783V49H134V64.2793ZM74 43H43V74H33V39C33 35.6863 35.6863 33 39 33H74V43ZM217 33C220.314 33 223 35.6863 223 39V74H213V43H182V33H217Z" stroke-width="12" stroke="#330069" stroke-opacity="0.3" mask="url(#stroke1_1_587)"/>
 </g>
 <defs>
-<filter id="filter0_d_19179_27408" x="21" y="25" width="214" height="214" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<filter id="filter0_d_1_587" x="19" y="23" width="218" height="218" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
 <feFlood flood-opacity="0" result="BackgroundImageFix"/>
 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
 <feOffset dy="4"/>
 <feGaussianBlur stdDeviation="4"/>
 <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_19179_27408"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_19179_27408" result="shape"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1_587"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1_587" result="shape"/>
 </filter>
-<linearGradient id="paint0_linear_19179_27408" x1="128" y1="16" x2="128" y2="240" gradientUnits="userSpaceOnUse">
-<stop stop-color="#E9C8F4"/>
-<stop offset="0.0817308" stop-color="#B655D6"/>
-<stop offset="1" stop-color="#5D2F9D"/>
+<linearGradient id="paint0_linear_1_587" x1="128" y1="16" x2="128" y2="240" gradientUnits="userSpaceOnUse">
+<stop stop-color="#B8A1D8"/>
+<stop offset="0.144231" stop-color="#8D60BC"/>
+<stop offset="1" stop-color="#4D2F72"/>
 </linearGradient>
-<linearGradient id="paint1_linear_19179_27408" x1="128" y1="16" x2="128" y2="240" gradientUnits="userSpaceOnUse">
-<stop stop-color="white" stop-opacity="0.5"/>
-<stop offset="0.779045" stop-color="white" stop-opacity="0"/>
-<stop offset="0.940231" stop-color="white" stop-opacity="0"/>
-<stop offset="1" stop-color="white" stop-opacity="0.18"/>
-</linearGradient>
-<linearGradient id="paint2_linear_19179_27408" x1="128" y1="35.9738" x2="128" y2="220.026" gradientUnits="userSpaceOnUse">
+<linearGradient id="paint1_linear_1_587" x1="128" y1="35.9738" x2="128" y2="220.026" gradientUnits="userSpaceOnUse">
 <stop stop-color="white"/>
 <stop offset="1" stop-color="#B2D6FF"/>
 </linearGradient>
-<path id="stroke0_19179_27408" d="M47 209H91V221H42C38.134 221 35 217.866 35 214V165H47V209ZM221 214C221 217.866 217.866 221 214 221H165V209H209V165H221V214ZM134 89.459C150.735 92.043 163.957 105.265 166.541 122H182.999V134H166.541C163.957 150.735 150.735 163.956 134 166.54V183H122V166.54C105.265 163.956 92.043 150.735 89.459 134H72.999V122H89.459C92.043 105.265 105.265 92.043 122 89.459V73H134V89.459ZM128 101C113.088 101 101 113.088 101 128C101 142.912 113.088 155 128 155C142.912 155 155 142.912 155 128C155 113.088 142.912 101 128 101ZM91 47H47V91H35V42C35 38.134 38.134 35 42 35H91V47ZM214 35C217.866 35 221 38.134 221 42V91H209V47H165V35H214Z"/>
+<path id="stroke0_1_587" d="M43 213H74V223H39C35.6863 223 33 220.314 33 217V182H43V213ZM223 217C223 220.314 220.314 223 217 223H182V213H213V182H223V217ZM134 64.2793C155.411 66.2702 173.761 78.807 183.806 96.6465L173.065 102.04C164.08 86.4754 147.264 76 128 76C99.2812 76 76 99.2812 76 128C76 156.719 99.2812 180 128 180C146.944 180 163.52 169.869 172.61 154.73L183.361 160.129C173.226 177.555 155.099 189.758 134 191.72V207H122V191.721C91.4427 188.88 67.1205 164.557 64.2793 134H49V122H64.2793C67.1205 91.4427 91.4427 67.1195 122 64.2783V49H134V64.2793ZM74 43H43V74H33V39C33 35.6863 35.6863 33 39 33H74V43ZM217 33C220.314 33 223 35.6863 223 39V74H213V43H182V33H217Z"/>
 </defs>
 </svg>

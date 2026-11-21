@@ -15,6 +15,10 @@ namespace Copixy
         public bool AutoStart = false;
         public bool StartInTray = true;
         public bool ToolsInMenu = true;          // drawing tools under a chevron
+        public int UiSize = 0;                   // toolbar size: 0 Normal, 1 Compact
+
+        /// <summary>Multiplier applied on top of the monitor DPI scale for the capture UI.</summary>
+        public float UiFactor { get { return UiSize == 1 ? 0.85f : 1f; } }
         public Keys HotKey = Keys.PrintScreen;   // key
         public Keys HotMods = Keys.None;         // Control | Shift | Alt (Win is stored separately)
         public bool HotWin = false;
@@ -95,6 +99,7 @@ namespace Copixy
             s.AutoStart = B(d, "AutoStart", s.AutoStart);
             s.StartInTray = B(d, "StartInTray", s.StartInTray);
             s.ToolsInMenu = B(d, "ToolsInMenu", s.ToolsInMenu);
+            s.UiSize = Clamp(I(d, "UiSize", s.UiSize), 0, 1);
             s.HotKey = (Keys)I(d, "HotKey", (int)s.HotKey);
             s.HotMods = (Keys)I(d, "HotMods", (int)s.HotMods);
             s.HotWin = B(d, "HotWin", s.HotWin);
@@ -129,6 +134,7 @@ namespace Copixy
             sb.AppendLine("AutoStart=" + AutoStart);
             sb.AppendLine("StartInTray=" + StartInTray);
             sb.AppendLine("ToolsInMenu=" + ToolsInMenu);
+            sb.AppendLine("UiSize=" + UiSize);
             sb.AppendLine("HotKey=" + (int)HotKey);
             sb.AppendLine("HotMods=" + (int)HotMods);
             sb.AppendLine("HotWin=" + HotWin);

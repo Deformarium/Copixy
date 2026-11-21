@@ -2,11 +2,19 @@
 
 A small, fast screenshot tool for Windows 10/11 with annotations, a precision magnifier and pixel-exact area selection.
 
-- One portable file — `Copixy.exe` (~620 KB), no installer.
+- One portable file — `Copixy.exe` (~650 KB), no installer.
 - Runs on .NET Framework 4.8, which is built into Windows 10/11.
 - Lives in the system tray; no network access, no telemetry.
 
-> Copixy was previously called Screenshoter. On first launch it migrates the old settings and the autostart entry automatically.
+## Download
+
+**[⬇ Download Copixy.exe](../../releases/latest/download/Copixy.exe)** — latest version, single portable file.
+All versions and release notes: **[Releases](../../releases)**.
+
+Requirements: Windows 10 or 11 (64-bit or 32-bit). No installation needed — just run the file.
+
+> On first run Windows SmartScreen may show "Windows protected your PC" because the file is not code-signed.
+> Click **More info → Run anyway**.
 
 ## Getting started
 Run `Copixy.exe` — it goes to the system tray. Take a screenshot by:
@@ -68,11 +76,14 @@ Open from the tray menu (*Settings…*) or the gear button on the toolbar.
 - Start with Windows.
 - Minimize to the tray on startup (if off, Settings open on startup).
 - Hide drawing tools under a chevron, or show them inline.
+- Toolbar size: Normal or Compact (about 15 % smaller).
 - Hotkey.
 - Save folder, default format (PNG/JPG), JPG quality.
 - File name: base name + number / date / time, next number, live example.
 - Text font (bundled Inter by default, or any installed font).
 - Magnifier: zoom (2–16×) and diameter (100–800 px).
+
+The Settings window also has **Help** (all shortcuts) and **About** links.
 
 Settings are stored in `%APPDATA%\Copixy\settings.ini`.
 
