@@ -16,6 +16,9 @@ namespace Copixy
         public bool StartInTray = true;
         public bool ToolsInMenu = true;          // drawing tools under a chevron
         public int UiSize = 0;                   // toolbar size: 0 Normal, 1 Compact
+        public bool CheckUpdates = true;         // check GitHub for a newer release once a day
+        public long LastUpdateCheck = 0;         // DateTime.UtcNow.Ticks of the last successful check
+        public string LastNotifiedVersion = "";  // newest version already announced automatically
 
         /// <summary>Multiplier applied on top of the monitor DPI scale for the capture UI.</summary>
         public float UiFactor { get { return UiSize == 1 ? 0.85f : 1f; } }
@@ -100,6 +103,9 @@ namespace Copixy
             s.StartInTray = B(d, "StartInTray", s.StartInTray);
             s.ToolsInMenu = B(d, "ToolsInMenu", s.ToolsInMenu);
             s.UiSize = Clamp(I(d, "UiSize", s.UiSize), 0, 1);
+            s.CheckUpdates = B(d, "CheckUpdates", s.CheckUpdates);
+            { string v; long t; if (d.TryGetValue("LastUpdateCheck", out v) && long.TryParse(v, out t)) s.LastUpdateCheck = t; }
+            { string v; if (d.TryGetValue("LastNotifiedVersion", out v)) s.LastNotifiedVersion = v; }
             s.HotKey = (Keys)I(d, "HotKey", (int)s.HotKey);
             s.HotMods = (Keys)I(d, "HotMods", (int)s.HotMods);
             s.HotWin = B(d, "HotWin", s.HotWin);
@@ -135,6 +141,9 @@ namespace Copixy
             sb.AppendLine("StartInTray=" + StartInTray);
             sb.AppendLine("ToolsInMenu=" + ToolsInMenu);
             sb.AppendLine("UiSize=" + UiSize);
+            sb.AppendLine("CheckUpdates=" + CheckUpdates);
+            sb.AppendLine("LastUpdateCheck=" + LastUpdateCheck);
+            sb.AppendLine("LastNotifiedVersion=" + LastNotifiedVersion);
             sb.AppendLine("HotKey=" + (int)HotKey);
             sb.AppendLine("HotMods=" + (int)HotMods);
             sb.AppendLine("HotWin=" + HotWin);

@@ -4,7 +4,7 @@ A small, fast screenshot tool for Windows 10/11 with annotations, a precision ma
 
 - One portable file — `Copixy.exe` (~650 KB), no installer.
 - Runs on .NET Framework 4.8, which is built into Windows 10/11.
-- Lives in the system tray; no network access, no telemetry.
+- Lives in the system tray. No telemetry: the only network request is an optional daily update check against GitHub (can be turned off in Settings).
 
 ## Download
 
@@ -71,9 +71,16 @@ To move the frame again, press Move (M), click the active tool again, or right-c
 **Text:** click inside the frame and type; Enter — new line; Esc, Ctrl+Enter or a click elsewhere — done.
 Text stays an object: drag it (in Text, Cursor or Move mode), click it to edit, use × or Delete to remove it.
 
+## Updates
+Copixy checks GitHub for a new release about a minute after start and then at most once a day.
+When a newer version is available, a tray notification appears — click it to open the download page.
+You can also check manually: tray menu → **Check for updates…**. Updates are never installed automatically.
+To turn the check off, uncheck *Check for updates automatically* in Settings.
+
 ## Settings
 Open from the tray menu (*Settings…*) or the gear button on the toolbar.
 - Start with Windows.
+- Check for updates automatically (once a day).
 - Minimize to the tray on startup (if off, Settings open on startup).
 - Hide drawing tools under a chevron, or show them inline.
 - Toolbar size: Normal or Compact (about 15 % smaller).

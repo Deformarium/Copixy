@@ -18,6 +18,9 @@ namespace Copixy
         CaptureForm capture;
         SettingsForm settingsForm;
         string lastSavedPath;
+        string balloonUrl;               // if set, clicking the balloon opens this page
+        readonly System.Windows.Forms.Timer updateTimer = new System.Windows.Forms.Timer();
+        bool checkingUpdates;
         bool hotkeyOk;
 
         public TrayApp(EventWaitHandle wakeEvent, bool fromAutostart)
@@ -34,6 +37,7 @@ namespace Copixy
             menu.Items.Add(captureItem);
             menu.Items.Add(new ToolStripMenuItem("Open screenshots folder", null, delegate { OpenFolder(); }));
             menu.Items.Add(new ToolStripSeparator());
+            menu.Items.Add(new ToolStripMenuItem("Check for updates…", null, delegate { CheckForUpdates(true); }));
             menu.Items.Add(new ToolStripMenuItem("Settings…", null, delegate { ShowSettings(null); }));
             menu.Items.Add(new ToolStripSeparator());
             menu.Items.Add(new ToolStripMenuItem("Exit", null, delegate { ExitThread(); }));
@@ -48,9 +52,24 @@ namespace Copixy
             tray.MouseClick += (s, e) => { if (e.Button == MouseButtons.Left) BeginCapture(200); };
             tray.BalloonTipClicked += delegate
             {
+                if (balloonUrl != null)
+                {
+                    try { Process.Start(balloonUrl); } catch { }
+                    return;
+                }
                 if (lastSavedPath != null && File.Exists(lastSavedPath))
                     try { Process.Start("explorer.exe", "/select,\"" + lastSavedPath + "\""); } catch { }
             };
+
+            // update check: first ~1 minute after start, then re-evaluated every hour (actual check at most once a day)
+            updateTimer.Interval = 60 * 1000;
+            updateTimer.Tick += delegate
+            {
+                updateTimer.Interval = 60 * 60 * 1000;
+                if (S.CheckUpdates && DateTime.UtcNow.Ticks - S.LastUpdateCheck >= TimeSpan.TicksPerDay)
+                    CheckForUpdates(false);
+            };
+            updateTimer.Start();
 
             RegisterHotkey();
             Settings.ApplyAutoStart(S.AutoStart);
@@ -77,6 +96,7 @@ namespace Copixy
             string msg = hotkeyOk
                 ? "Running in the system tray. Capture: " + S.HotkeyText + " or click the tray icon."
                 : "Could not register " + S.HotkeyText + " — it may be used by another program. Choose another one in Settings.";
+            balloonUrl = null;
             tray.ShowBalloonTip(4000, "Copixy", msg, hotkeyOk ? ToolTipIcon.Info : ToolTipIcon.Warning);
         }
 
@@ -115,6 +135,7 @@ namespace Copixy
             }
             catch (Exception ex)
             {
+                balloonUrl = null;
                 tray.ShowBalloonTip(3000, "Copixy", "Screen capture failed: " + ex.Message, ToolTipIcon.Error);
                 return;
             }
@@ -126,7 +147,42 @@ namespace Copixy
         void OnSaved(string path)
         {
             lastSavedPath = path;
+            balloonUrl = null;
             tray.ShowBalloonTip(2500, "Saved", Path.GetFileName(path) + "\nClick to open the folder.", ToolTipIcon.None);
+        }
+
+        /// <summary>Asks GitHub for the latest release. manual = user clicked the menu item (always report the result).</summary>
+        void CheckForUpdates(bool manual)
+        {
+            if (checkingUpdates) return;
+            checkingUpdates = true;
+            Updater.CheckAsync(r => ui.Post(_ =>
+            {
+                checkingUpdates = false;
+                if (r.Ok)
+                {
+                    S.LastUpdateCheck = DateTime.UtcNow.Ticks;
+                    if (r.Newer && (manual || r.Version != S.LastNotifiedVersion))
+                    {
+                        S.LastNotifiedVersion = r.Version;
+                        balloonUrl = r.Url;
+                        tray.ShowBalloonTip(8000, "Copixy " + r.Version + " is available",
+                            "You have version " + AppInfo.Version + ". Click here to open the download page.", ToolTipIcon.Info);
+                    }
+                    else if (manual)
+                    {
+                        balloonUrl = null;
+                        tray.ShowBalloonTip(4000, "Copixy is up to date", "You have the latest version (" + AppInfo.Version + ").", ToolTipIcon.Info);
+                    }
+                    S.Save();
+                }
+                else if (manual)
+                {
+                    balloonUrl = Updater.ReleasesPage;
+                    tray.ShowBalloonTip(5000, "Couldn't check for updates",
+                        "Check your internet connection, or click here to open the releases page.", ToolTipIcon.Warning);
+                }
+            }, null));
         }
 
         void OpenFolder()
@@ -152,12 +208,17 @@ namespace Copixy
             settingsForm = null;
             RegisterHotkey();
             if (!hotkeyOk)
+            {
+                balloonUrl = null;
                 tray.ShowBalloonTip(4000, "Copixy", "Hotkey " + S.HotkeyText + " is used by another program. Choose another one.", ToolTipIcon.Warning);
+            }
         }
 
         protected override void ExitThreadCore()
         {
             if (capture != null && !capture.IsDisposed) capture.Close();
+            updateTimer.Stop();
+            updateTimer.Dispose();
             hotkeys.Unregister();
             hotkeys.DestroyHandle();
             tray.Visible = false;
