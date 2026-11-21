@@ -12,7 +12,7 @@ namespace Copixy
         public const string Name = "Copixy";
         public const string Creator = "Deformarium";
         /// <summary>Project website. Leave empty to hide the link in About.</summary>
-        public const string Website = "";
+        public const string Website = "https://github.com/Deformarium/copixy";
         public const string Description =
             "Lightweight screenshot tool for Windows with annotations, a precision magnifier and pixel-exact area selection.";
 
@@ -190,7 +190,7 @@ namespace Copixy
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterParent;
             BackColor = Color.White;
-            ClientSize = new Size(400, 310);
+            ClientSize = new Size(400, 334);
             try { Icon = Res.AppIcon(32); } catch { }
 
             int y = 20;
@@ -245,7 +245,7 @@ namespace Copixy
                 ForeColor = Color.FromArgb(120, 120, 130)
             });
 
-            var ok = new Button { Text = "OK", Size = new Size(84, 28), Location = new Point(292, 268), DialogResult = DialogResult.OK, BackColor = SystemColors.Control };
+            var ok = new Button { Text = "OK", Size = new Size(84, 28), Location = new Point(292, 292), DialogResult = DialogResult.OK, BackColor = SystemColors.Control };
             Controls.Add(ok);
             AcceptButton = ok;
             CancelButton = ok;
