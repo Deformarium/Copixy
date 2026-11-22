@@ -5,7 +5,7 @@ using System.Drawing.Drawing2D;
 
 namespace Copixy
 {
-    enum Tool { None, Line, Pencil, Rect, Ellipse, Text, Cursor, Eraser }
+    enum Tool { None, Line, Pencil, Rect, Ellipse, Text, Cursor, Hand, Eraser }
 
     abstract class Shape
     {
@@ -149,19 +149,56 @@ namespace Copixy
     /// <summary>Cursor image placed on the screenshot. Stays an object: it can be moved and deleted.</summary>
     class StampShape : Shape
     {
-        public static readonly string[] Names = { "Cursor-Sm", "Cursor-Md", "Cursor-Lg" };
+        // [style][size]: 0 = arrow, 1 = hand with a pointing finger; sizes 24 / 40 / 64 px
+        public static readonly string[][] Names =
+        {
+            new[] { "Cursor-Sm", "Cursor-Md", "Cursor-Lg" },
+            new[] { "Cursor-Hand-24", "Cursor-Hand-40", "Cursor-Hand-64" },
+        };
+        public static string NameOf(int style, int size)
+        {
+            return Names[Math.Max(0, Math.Min(Names.Length - 1, style))][Math.Max(0, Math.Min(2, size))];
+        }
+
         public Point Pos;          // top-left corner
         public int SizeIdx;
+        public int Style;          // 0 arrow, 1 hand
 
-        public Bitmap Image { get { return Res.Icon(Names[Math.Max(0, Math.Min(2, SizeIdx))]); } }
+        public Bitmap Image { get { return Res.Icon(NameOf(Style, SizeIdx)); } }
 
         public Rectangle Rect
         {
             get { var b = Image; return b == null ? Rectangle.Empty : new Rectangle(Pos.X, Pos.Y, b.Width, b.Height); }
         }
 
-        /// <summary>Arrow tip position relative to the image's top-left corner.</summary>
-        public Point HotSpot { get { var b = Image; return b == null ? Point.Empty : new Point(b.Width / 8, b.Height / 8); } }
+        /// <summary>Pointer tip relative to the image's top-left corner: the arrow tip, or the fingertip of the hand.</summary>
+        public Point HotSpot
+        {
+            get
+            {
+                var b = Image;
+                if (b == null) return Point.Empty;
+                if (Style == 0) return new Point(b.Width / 8, b.Height / 8);
+                Point p;
+                if (!tips.TryGetValue(b, out p)) { p = FindTip(b); tips[b] = p; }
+                return p;
+            }
+        }
+
+        static readonly System.Collections.Generic.Dictionary<Bitmap, Point> tips = new System.Collections.Generic.Dictionary<Bitmap, Point>();
+
+        // Topmost opaque row of the image, middle of its run = the fingertip.
+        static Point FindTip(Bitmap b)
+        {
+            for (int y = 0; y < b.Height; y++)
+            {
+                int x0 = -1, x1 = -1;
+                for (int x = 0; x < b.Width; x++)
+                    if (b.GetPixel(x, y).A > 128) { if (x0 < 0) x0 = x; x1 = x; }
+                if (x0 >= 0) return new Point((x0 + x1 + 1) / 2, y);
+            }
+            return new Point(b.Width / 2, 0);
+        }
 
         public override RectangleF Extent(Graphics g) { return Rect; }
 

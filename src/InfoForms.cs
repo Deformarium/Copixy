@@ -122,6 +122,7 @@ namespace Copixy
                 "Ellipse", "O",
                 "Text", "T",
                 "Cursor", "C",
+                "Hand (pointing cursor)", "H",
                 "Eraser", "E",
                 "Last drawing tool", "Click the tools icon",
                 "Tools menu", "Chevron, or long-press the icon",

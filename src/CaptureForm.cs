@@ -96,6 +96,7 @@ namespace Copixy
             new MenuEntry { T = Tool.Ellipse, Icon = "circle",    Name = "Ellipse",   Key = "O" },
             new MenuEntry { T = Tool.Text,    Icon = "type",      Name = "Text",      Key = "T" },
             new MenuEntry { T = Tool.Cursor,  Icon = "Cursor-Lg", Name = "Cursor",    Key = "C" },
+            new MenuEntry { T = Tool.Hand,    Icon = "Cursor-Hand-64", Name = "Hand", Key = "H" },
         };
 
         static int DrawToolIndex(Tool t)
@@ -451,7 +452,11 @@ namespace Copixy
             return l;
         }
 
-        bool ObjectsInteractive { get { return hasSel && (tool == Tool.None || tool == Tool.Cursor || tool == Tool.Text); } }
+        bool ObjectsInteractive { get { return hasSel && (tool == Tool.None || IsStampTool || tool == Tool.Text); } }
+
+        // Cursor and Hand both drop a cursor image; they differ only in the picture.
+        bool IsStampTool { get { return tool == Tool.Cursor || tool == Tool.Hand; } }
+        int StampStyle { get { return tool == Tool.Hand ? 1 : 0; } }
 
         bool IsLive(Shape o) { return o != null && shapes.Contains(o); }
 
@@ -519,7 +524,7 @@ namespace Copixy
 
         void PlaceStamp(Point p)
         {
-            var st = new StampShape { SizeIdx = S.CursorSize };
+            var st = new StampShape { SizeIdx = S.CursorSize, Style = StampStyle };
             var hs = st.HotSpot;
             st.Pos = new Point(p.X - hs.X, p.Y - hs.Y);
             shapes.Add(st);
@@ -968,7 +973,7 @@ namespace Copixy
                     if (S.CursorSize == idx) FillRound(g, bg, Sc(6), Accent);
                     else if (isHover) FillRound(g, bg, Sc(6), Color.FromArgb(34, 255, 255, 255));
                     int sz = Sc(12 + idx * 5);
-                    var img = Res.IconSized(StampShape.Names[idx], sz);
+                    var img = Res.IconSized(StampShape.NameOf(StampStyle, idx), sz);
                     if (img != null) g.DrawImageUnscaled(img, r.X + (r.Width - sz) / 2, r.Y + (r.Height - sz) / 2);
                     break;
                 }
@@ -1079,7 +1084,7 @@ namespace Copixy
             AddItem(0, Kind.Icon, "copy", B, "copy", "Copy to clipboard (Ctrl+C)");
 
             // --- properties row ---
-            if (ShowProp && tool == Tool.Cursor)
+            if (ShowProp && IsStampTool)
             {
                 AddItem(1, Kind.Label, "", Sc(84), text: "Cursor size");
                 AddItem(1, Kind.CursorSize, "cs0", B, tip: "Small — 24 px");
@@ -1433,7 +1438,7 @@ namespace Copixy
             {
                 if (tool == Tool.None) { drag = DragMode.Move; return; }
                 if (tool == Tool.Text) { StartText(p); Redraw(true); return; }
-                if (tool == Tool.Cursor) { PlaceStamp(p); return; }
+                if (IsStampTool) { PlaceStamp(p); return; }
                 StartShape(p);
                 return;
             }
@@ -1926,6 +1931,7 @@ namespace Copixy
                     case Keys.T: t = Tool.Text; break;
                     case Keys.E: t = Tool.Eraser; break;
                     case Keys.C: t = Tool.Cursor; break;
+                    case Keys.H: t = Tool.Hand; break;
                     case Keys.M: case Keys.V: SetTool(Tool.None); return true;
                     case Keys.A:
                         if (tool != Tool.Line) { S.LineArrow = true; SetTool(Tool.Line); }

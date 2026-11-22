@@ -57,6 +57,7 @@ above the frame and/or to the left; if there's no room above or below, it goes i
 | Dashed — toggle for line, rectangle and ellipse | D |
 | Arrowhead — toggle for line | A |
 | Cursor — drop a cursor image (S 24 / M 40 / L 64 px); drag to move, × to delete | C |
+| Hand — drop a pointing-hand cursor (S / M / L); drag to move, × to delete | H |
 | Eraser — erases drawings, the screenshot underneath stays intact | E |
 | Erase all — remove all drawings at once (in eraser options) | Delete |
 | Magnifier | hold Z, or toolbar button |
@@ -103,7 +104,7 @@ Settings are stored in `%APPDATA%\Copixy\settings.ini`.
 ## Building from source
 Run `build.cmd`. It builds `Copixy.exe` with the C# compiler that ships with Windows (`csc.exe` from .NET Framework) — no Visual Studio needed.
 
-Embedded resources: icons from `resources\icons` (except `app_*`), cursor images from `resources\cursors`,
+Embedded resources: icons, logos and hand cursors from `resources\icons` (except `app_*` and `Copixy-Logo-220`), cursor images from `resources\cursors`,
 fonts from `resources\fonts`, and the app icon `resources\app.ico`.
 
 Icons come in sets per button: `name_xSm.png` (16), `_Sm` (20), `_Md` (24), `_Lg` (32), `_xLg` (40), `_2xLg` (48).
