@@ -46,7 +46,7 @@ namespace Copixy
             hotkey = new HotkeyBox { Location = new Point(140, 126), Width = 190 };
             hotkey.Set(S.HotKey, S.HotMods, S.HotWin);
             gGeneral.Controls.Add(hotkey);
-            var hint = Lbl(gGeneral, "press a key combination", 338, 130);
+            var hint = Lbl(gGeneral, "press new keys", 338, 130);
             Lbl(gGeneral, "Toolbar size:", 16, 164);
             cmbUiSize = new ComboBox { Location = new Point(140, 160), Width = 190, DropDownStyle = ComboBoxStyle.DropDownList };
             cmbUiSize.Items.AddRange(new object[] { "Normal", "Compact" });
@@ -131,6 +131,13 @@ namespace Copixy
                 if (AppInfo.LeaveRequested && TopMost) { DialogResult = DialogResult.Cancel; Close(); }
             };
             Controls.Add(about);
+            var support = new LinkLabel { Text = "Support", Location = new Point(118, 644), AutoSize = true };
+            support.LinkClicked += delegate
+            {
+                using (var f = new SupportForm()) f.ShowDialog(this);
+                if (AppInfo.LeaveRequested && TopMost) { DialogResult = DialogResult.Cancel; Close(); }
+            };
+            Controls.Add(support);
 
             var ok = new Button { Text = "Save", Location = new Point(300, 638), Size = new Size(84, 28) };
             var cancel = new Button { Text = "Cancel", Location = new Point(388, 638), Size = new Size(84, 28), DialogResult = DialogResult.Cancel };

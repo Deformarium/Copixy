@@ -2,9 +2,13 @@
 
 A small, fast screenshot tool for Windows 10/11 with annotations, a precision magnifier and pixel-exact area selection.
 
-- One portable file — `Copixy.exe` (~650 KB), no installer.
+- One portable file — `Copixy.exe` (~700 KB), no installer.
 - Runs on .NET Framework 4.8, which is built into Windows 10/11.
 - Lives in the system tray. No telemetry: the only network request is an optional daily update check against GitHub (can be turned off in Settings).
+
+<p align="center">
+  <img src="docs/screenshots/01_Main.jpg" width="800" alt="Copixy: area selection with the toolbar attached to the frame">
+</p>
 
 ## Download
 
@@ -16,11 +20,40 @@ Requirements: Windows 10 or 11 (64-bit or 32-bit). No installation needed — ju
 > On first run Windows SmartScreen may show "Windows protected your PC" because the file is not code-signed.
 > Click **More info → Run anyway**.
 
+## Screenshots
+
+**Annotate** — arrows, lines, highlighter, shapes, cursor stamps; color, thickness, opacity and blend modes.
+
+<img src="docs/screenshots/02_Features.jpg" width="800" alt="Annotations: arrow, highlighter, ellipse, dashed frame and a hand cursor">
+
+**Magnifier** — hold Z (or use the toolbar button) for pixel-exact selection.
+
+<img src="docs/screenshots/03_Zoom.jpg" width="800" alt="Magnifier with crosshair and pixel coordinates">
+
+**Drawing tools** — click the tools button for the last tool, open the menu with ▾ or a long press.
+
+<img src="docs/screenshots/04_Menu.jpg" width="800" alt="Drawing tools menu">
+
+**Settings** — hotkey, autostart, file naming, JPG quality, font, magnifier.
+
+<img src="docs/screenshots/05_Settings.jpg" width="800" alt="Settings window">
+
 ## Support
 
-Copixy is free. If it saves you time, you can support its development:
+Copixy is free and has no ads. If it saves you time, you can support its development:
 
-**[☕ Support on Boosty](https://boosty.to/deformarium/donate)**
+**[☕ Support on Boosty](https://boosty.to/deformarium/donate)** — one-time or monthly, by bank card.
+
+Or send crypto directly:
+
+| Coin | Network | Address |
+|---|---|---|
+| Bitcoin (BTC) | Bitcoin | `bc1q9msyefzusdugtema6jrttt7uu3n3963s0qwkdn` |
+| USDT | TRON (TRC20) | `TSsUZhbw1hKHczPmtw62SPCKcV1nggNahJ` |
+| SOL, USDT, USDC | Solana | `CWW3miZCCtF2LFaFUxA8NVG7azju3pwPTzqQSt9Lo3gm` |
+
+Send each coin only on the network shown — a transfer on another network will be lost.
+The same addresses (with QR codes) are in the app: **Settings → Support**. If an address in your copy of the app differs from this page, don't send — download Copixy from this repository.
 
 ## Getting started
 Run `Copixy.exe` — it goes to the system tray. Take a screenshot by:
@@ -97,7 +130,7 @@ Open from the tray menu (*Settings…*) or the gear button on the toolbar.
 - Text font (bundled Inter by default, or any installed font).
 - Magnifier: zoom (2–16×) and diameter (100–800 px).
 
-The Settings window also has **Help** (all shortcuts) and **About** links (About includes a link to support the project on Boosty).
+The Settings window also has **Help** (all shortcuts), **About** and **Support** (Boosty and crypto wallets with QR codes) links.
 
 Settings are stored in `%APPDATA%\Copixy\settings.ini`.
 

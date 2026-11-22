@@ -252,8 +252,12 @@ namespace Copixy
 
             if (!string.IsNullOrEmpty(AppInfo.Donate))
             {
-                var donate = new LinkLabel { Text = "Support Copixy on Boosty", Location = new Point(24, y), AutoSize = true };
-                donate.LinkClicked += delegate { AppInfo.OpenLink(AppInfo.Donate, this); };
+                var donate = new LinkLabel { Text = "Support Copixy…", Location = new Point(24, y), AutoSize = true };
+                donate.LinkClicked += delegate
+                {
+                    using (var f = new SupportForm()) f.ShowDialog(this);
+                    if (AppInfo.LeaveRequested) Close();   // Boosty was opened from Support
+                };
                 Controls.Add(donate);
                 y += 26;
             }
