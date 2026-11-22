@@ -23,7 +23,10 @@ namespace Copixy
             public string Version;   // latest version, e.g. "1.1"
             public string Url;       // release page
             public string Error;
+            public Problem Kind;     // why the check failed (for a clear message)
         }
+
+        public enum Problem { None, Network, NoRelease, RateLimited, Other }
 
         /// <summary>Runs the check on a background thread; the callback is invoked on that thread.</summary>
         public static void CheckAsync(Action<Result> done)
@@ -32,7 +35,21 @@ namespace Copixy
             {
                 Result r;
                 try { r = Check(); }
-                catch (Exception ex) { r = new Result { Ok = false, Error = ex.Message }; }
+                catch (WebException ex)
+                {
+                    var http = ex.Response as HttpWebResponse;
+                    Problem k = Problem.Network;
+                    if (http != null)
+                    {
+                        // 404: the repository is private or has no published release yet
+                        if (http.StatusCode == HttpStatusCode.NotFound) k = Problem.NoRelease;
+                        // 403/429: GitHub API limit for this IP (60 requests per hour)
+                        else if ((int)http.StatusCode == 403 || (int)http.StatusCode == 429) k = Problem.RateLimited;
+                        else k = Problem.Other;
+                    }
+                    r = new Result { Ok = false, Error = ex.Message, Kind = k };
+                }
+                catch (Exception ex) { r = new Result { Ok = false, Error = ex.Message, Kind = Problem.Other }; }
                 done(r);
             });
         }
@@ -54,13 +71,13 @@ namespace Copixy
                 json = rd.ReadToEnd();
 
             var tag = Regex.Match(json, "\"tag_name\"\\s*:\\s*\"([^\"]+)\"");
-            if (!tag.Success) return new Result { Ok = false, Error = "No release information" };
+            if (!tag.Success) return new Result { Ok = false, Error = "No release information", Kind = Problem.NoRelease };
             var url = Regex.Match(json, "\"html_url\"\\s*:\\s*\"([^\"]+/releases/tag/[^\"]+)\"");
 
             string latest = tag.Groups[1].Value.Trim();
             Version lv, cv;
             if (!TryParse(latest, out lv) || !TryParse(AppInfo.Version, out cv))
-                return new Result { Ok = false, Error = "Unrecognized version: " + latest };
+                return new Result { Ok = false, Error = "Unrecognized version: " + latest, Kind = Problem.Other };
 
             return new Result
             {

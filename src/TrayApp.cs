@@ -179,8 +179,19 @@ namespace Copixy
                 else if (manual)
                 {
                     balloonUrl = Updater.ReleasesPage;
-                    tray.ShowBalloonTip(5000, "Couldn't check for updates",
-                        "Check your internet connection, or click here to open the releases page.", ToolTipIcon.Warning);
+                    string text;
+                    switch (r.Kind)
+                    {
+                        case Updater.Problem.Network:
+                            text = "No connection to GitHub. Check your internet connection and try again."; break;
+                        case Updater.Problem.NoRelease:
+                            text = "No published release found on GitHub. Click here to open the releases page."; break;
+                        case Updater.Problem.RateLimited:
+                            text = "GitHub is limiting requests right now. Try again in an hour."; break;
+                        default:
+                            text = "GitHub returned an unexpected answer. Click here to open the releases page."; break;
+                    }
+                    tray.ShowBalloonTip(6000, "Couldn't check for updates", text, ToolTipIcon.Warning);
                 }
             }, null));
         }
