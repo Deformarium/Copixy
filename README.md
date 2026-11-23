@@ -145,8 +145,8 @@ The base toolbar icon size is 24 px at 100 % scaling; for other display scales t
 
 ## Code signing policy
 
-Free code signing provided by [SignPath.io](https://about.signpath.io), certificate by [SignPath Foundation](https://signpath.org).
-*(Copixy has applied to the SignPath Foundation program; releases are unsigned until the application is approved.)*
+Releases are currently **unsigned**. Code signing through the SignPath Foundation program is planned; signed releases will use
+free code signing provided by [SignPath.io](https://about.signpath.io), certificate by [SignPath Foundation](https://signpath.org).
 
 - Signed files are built only by [GitHub Actions](../../actions/workflows/build.yml) from the source code in this repository — never on a local machine.
 - Every signing request is approved manually.
