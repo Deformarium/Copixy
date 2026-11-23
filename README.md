@@ -20,6 +20,8 @@ Requirements: Windows 10 or 11 (64-bit or 32-bit). No installation needed — ju
 > On first run Windows SmartScreen may show "Windows protected your PC" because the file is not code-signed yet
 > (see [Code signing policy](#code-signing-policy)). Click **More info → Run anyway**.
 
+<a href="https://alternativeto.net/software/copixy/about/?utm_source=badge&utm_medium=referral" target="_blank"><img src="https://alternativeto.net/static/badges/badge-compact-color.svg" alt="Copixy | AlternativeTo" width="183" height="59"></a>
+
 ## Screenshots
 
 **Annotate** — arrows, lines, highlighter, shapes, cursor stamps; color, thickness, opacity and blend modes.
