@@ -17,8 +17,8 @@ All versions and release notes: **[Releases](../../releases)**.
 
 Requirements: Windows 10 or 11 (64-bit or 32-bit). No installation needed — just run the file.
 
-> On first run Windows SmartScreen may show "Windows protected your PC" because the file is not code-signed.
-> Click **More info → Run anyway**.
+> On first run Windows SmartScreen may show "Windows protected your PC" because the file is not code-signed yet
+> (see [Code signing policy](#code-signing-policy)). Click **More info → Run anyway**.
 
 ## Screenshots
 
@@ -143,6 +143,30 @@ fonts from `resources\fonts`, and the app icon `resources\app.ico`.
 Icons come in sets per button: `name_xSm.png` (16), `_Sm` (20), `_Md` (24), `_Lg` (32), `_xLg` (40), `_2xLg` (48).
 The base toolbar icon size is 24 px at 100 % scaling; for other display scales the closest pre-rendered size is used.
 
+## Code signing policy
+
+Free code signing provided by [SignPath.io](https://about.signpath.io), certificate by [SignPath Foundation](https://signpath.org).
+*(Copixy has applied to the SignPath Foundation program; releases are unsigned until the application is approved.)*
+
+- Signed files are built only by [GitHub Actions](../../actions/workflows/build.yml) from the source code in this repository — never on a local machine.
+- Every signing request is approved manually.
+
+Team roles:
+
+- Committers and reviewers: [Deformarium](https://github.com/Deformarium)
+- Approvers: [Deformarium](https://github.com/Deformarium)
+
+## Privacy
+
+This program will not transfer any information to other networked systems unless specifically requested by the user or the person installing or operating it.
+
+- **Update check** (optional, on by default, can be turned off in Settings): once a day Copixy sends one request to the GitHub API (`api.github.com`) to read the number of the latest release. Nothing about you or your screenshots is sent; GitHub sees the request like any web request (your IP address). See the [GitHub General Privacy Statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement).
+- Links in Help / About / Support (GitHub, Boosty) open in your browser only when you click them.
+- Screenshots stay on your computer: in the clipboard or in the files you save.
+
 ## Licenses
-- Toolbar icons — custom set (`resources\icons`, sizes xSm…2xLg = 16…48 px).
-- Font: [Inter](https://rsms.me/inter) — SIL Open Font License 1.1 (embedded, Latin + Cyrillic subset).
+
+- Copixy is released under the [MIT License](LICENSE).
+- Toolbar icons, app icon and logo — original artwork by Deformarium, part of this project (MIT).
+- Font: [Inter](https://rsms.me/inter) — [SIL Open Font License 1.1](resources/fonts/OFL.txt) (embedded, Latin + Cyrillic subset).
+- Bitcoin, Tether (USDT), Solana and Boosty logos are trademarks of their respective owners and are used only to identify the payment options.

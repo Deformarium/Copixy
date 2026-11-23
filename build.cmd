@@ -24,6 +24,12 @@ for %%f in (resources\fonts\*.ttf) do >>"%RSP%" echo /resource:%%f,font.%%~nxf
 >>"%RSP%" echo src\*.cs
 
 "%CSC%" @"%RSP%"
-if errorlevel 1 (echo. & echo Build failed. & pause & exit /b 1)
+rem no pause on CI (GitHub Actions sets CI=true)
+if errorlevel 1 (
+  echo.
+  echo Build failed.
+  if not defined CI pause
+  exit /b 1
+)
 del "%RSP%" >nul 2>&1
 echo Done: Copixy.exe

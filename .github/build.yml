@@ -1,0 +1,32 @@
+# Builds Copixy.exe on GitHub Actions from this repository.
+# Release binaries are taken from this workflow (required for SignPath Foundation code signing).
+name: Build
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Build with the .NET Framework C# compiler
+        shell: cmd
+        run: build.cmd
+
+      - name: Upload Copixy.exe
+        id: upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: Copixy
+          path: Copixy.exe
+          if-no-files-found: error
