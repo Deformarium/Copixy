@@ -125,6 +125,7 @@ Open from the tray menu (*Settings…*) or the gear button on the toolbar.
 - Check for updates automatically (once a day).
 - Minimize to the tray on startup (if off, Settings open on startup).
 - Hide drawing tools under a chevron, or show them inline.
+- Show or hide the "Select an area" hint that appears in the middle of the screen when a capture starts.
 - Toolbar size: Normal or Compact (about 15 % smaller).
 - Hotkey.
 - Save folder, default format (PNG/JPG), JPG quality.

@@ -10,7 +10,7 @@ namespace Copixy
     {
         readonly Settings S;
 
-        CheckBox chkAutoStart, chkTray, chkToolsMenu, chkUpdates, chkDialog, chkNum, chkDate, chkTime;
+        CheckBox chkAutoStart, chkTray, chkToolsMenu, chkUpdates, chkHint, chkDialog, chkNum, chkDate, chkTime;
         HotkeyBox hotkey;
         TextBox txtFolder, txtBase;
         RadioButton rbPng, rbJpg;
@@ -33,29 +33,30 @@ namespace Copixy
             MinimizeBox = false;
             ShowInTaskbar = true;
             StartPosition = FormStartPosition.CenterScreen;
-            ClientSize = new Size(484, 674);
+            ClientSize = new Size(484, 698);
             try { Icon = Res.AppIcon(32); } catch { }
 
             // ---------- General ----------
-            var gGeneral = Group("General", 12, 10, 460, 194);
+            var gGeneral = Group("General", 12, 10, 460, 218);
             chkAutoStart = Check(gGeneral, "Start with Windows", 16, 24, S.AutoStart);
             chkTray = Check(gGeneral, "Minimize to system tray on startup", 16, 48, S.StartInTray);
             chkToolsMenu = Check(gGeneral, "Hide drawing tools under a dropdown (chevron) on the toolbar", 16, 72, S.ToolsInMenu);
             chkUpdates = Check(gGeneral, "Check for updates automatically (once a day, via GitHub)", 16, 96, S.CheckUpdates);
-            Lbl(gGeneral, "Hotkey:", 16, 130);
-            hotkey = new HotkeyBox { Location = new Point(140, 126), Width = 190 };
+            chkHint = Check(gGeneral, "Show the \"Select an area\" hint when a capture starts", 16, 120, S.ShowHint);
+            Lbl(gGeneral, "Hotkey:", 16, 154);
+            hotkey = new HotkeyBox { Location = new Point(140, 150), Width = 190 };
             hotkey.Set(S.HotKey, S.HotMods, S.HotWin);
             gGeneral.Controls.Add(hotkey);
-            var hint = Lbl(gGeneral, "press new keys", 338, 130);
-            Lbl(gGeneral, "Toolbar size:", 16, 164);
-            cmbUiSize = new ComboBox { Location = new Point(140, 160), Width = 190, DropDownStyle = ComboBoxStyle.DropDownList };
+            var hint = Lbl(gGeneral, "press new keys", 338, 154);
+            Lbl(gGeneral, "Toolbar size:", 16, 188);
+            cmbUiSize = new ComboBox { Location = new Point(140, 184), Width = 190, DropDownStyle = ComboBoxStyle.DropDownList };
             cmbUiSize.Items.AddRange(new object[] { "Normal", "Compact" });
             cmbUiSize.SelectedIndex = Settings.Clamp(S.UiSize, 0, 1);
             gGeneral.Controls.Add(cmbUiSize);
             hint.ForeColor = SystemColors.GrayText;
 
             // ---------- Saving ----------
-            var gSave = Group("Saving", 12, 212, 460, 280);
+            var gSave = Group("Saving", 12, 236, 460, 280);
             Lbl(gSave, "Folder:", 16, 30);
             txtFolder = new TextBox { Location = new Point(140, 26), Width = 222, Text = S.SaveFolder };
             gSave.Controls.Add(txtFolder);
@@ -99,7 +100,7 @@ namespace Copixy
             rbPng.CheckedChanged += upd; numCounter.ValueChanged += upd;
 
             // ---------- Text ----------
-            var gText = Group("Text annotations", 12, 500, 460, 60);
+            var gText = Group("Text annotations", 12, 524, 460, 60);
             Lbl(gText, "Font:", 16, 28);
             cmbFont = new ComboBox { Location = new Point(140, 24), Width = 304, DropDownStyle = ComboBoxStyle.DropDownList, MaxDropDownItems = 20 };
             foreach (var f in Res.FamilyNames()) cmbFont.Items.Add(f);
@@ -109,7 +110,7 @@ namespace Copixy
             gText.Controls.Add(cmbFont);
 
             // ---------- Magnifier ----------
-            var gZoom = Group("Magnifier (hold Z in capture mode)", 12, 568, 460, 60);
+            var gZoom = Group("Magnifier (hold Z in capture mode)", 12, 592, 460, 60);
             Lbl(gZoom, "Zoom:", 16, 28);
             numZoom = new NumericUpDown { Location = new Point(140, 24), Width = 60, Minimum = 2, Maximum = 16, Value = Settings.Clamp(S.ZoomFactor, 2, 16) };
             gZoom.Controls.Add(numZoom);
@@ -120,10 +121,10 @@ namespace Copixy
             Lbl(gZoom, "px", 390, 28);
 
             // ---------- Buttons ----------
-            var help = new LinkLabel { Text = "Help", Location = new Point(14, 644), AutoSize = true };
+            var help = new LinkLabel { Text = "Help", Location = new Point(14, 668), AutoSize = true };
             help.LinkClicked += delegate { using (var f = new HelpForm()) f.ShowDialog(this); };
             Controls.Add(help);
-            var about = new LinkLabel { Text = "About", Location = new Point(64, 644), AutoSize = true };
+            var about = new LinkLabel { Text = "About", Location = new Point(64, 668), AutoSize = true };
             about.LinkClicked += delegate
             {
                 using (var f = new AboutForm()) f.ShowDialog(this);
@@ -131,7 +132,7 @@ namespace Copixy
                 if (AppInfo.LeaveRequested && TopMost) { DialogResult = DialogResult.Cancel; Close(); }
             };
             Controls.Add(about);
-            var support = new LinkLabel { Text = "Support", Location = new Point(118, 644), AutoSize = true };
+            var support = new LinkLabel { Text = "Support", Location = new Point(118, 668), AutoSize = true };
             support.LinkClicked += delegate
             {
                 using (var f = new SupportForm()) f.ShowDialog(this);
@@ -139,8 +140,8 @@ namespace Copixy
             };
             Controls.Add(support);
 
-            var ok = new Button { Text = "Save", Location = new Point(300, 638), Size = new Size(84, 28) };
-            var cancel = new Button { Text = "Cancel", Location = new Point(388, 638), Size = new Size(84, 28), DialogResult = DialogResult.Cancel };
+            var ok = new Button { Text = "Save", Location = new Point(300, 662), Size = new Size(84, 28) };
+            var cancel = new Button { Text = "Cancel", Location = new Point(388, 662), Size = new Size(84, 28), DialogResult = DialogResult.Cancel };
             ok.Click += delegate { if (Apply()) { DialogResult = DialogResult.OK; Close(); } };
             Controls.Add(ok);
             Controls.Add(cancel);
@@ -218,6 +219,7 @@ namespace Copixy
             S.StartInTray = chkTray.Checked;
             S.ToolsInMenu = chkToolsMenu.Checked;
             S.CheckUpdates = chkUpdates.Checked;
+            S.ShowHint = chkHint.Checked;
             S.UiSize = Math.Max(0, cmbUiSize.SelectedIndex);
             S.HotKey = hotkey.Key;
             S.HotMods = hotkey.Mods;

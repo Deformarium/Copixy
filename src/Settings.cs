@@ -16,6 +16,7 @@ namespace Copixy
         public bool StartInTray = true;
         public bool ToolsInMenu = true;          // drawing tools under a chevron
         public int UiSize = 0;                   // toolbar size: 0 Normal, 1 Compact
+        public bool ShowHint = true;             // "Select an area" hint in the middle of the screen at capture start
         public bool CheckUpdates = true;         // check GitHub for a newer release once a day
         public long LastUpdateCheck = 0;         // DateTime.UtcNow.Ticks of the last successful check
         public string LastNotifiedVersion = "";  // newest version already announced automatically
@@ -104,6 +105,7 @@ namespace Copixy
             s.ToolsInMenu = B(d, "ToolsInMenu", s.ToolsInMenu);
             s.UiSize = Clamp(I(d, "UiSize", s.UiSize), 0, 1);
             s.CheckUpdates = B(d, "CheckUpdates", s.CheckUpdates);
+            s.ShowHint = B(d, "ShowHint", s.ShowHint);
             { string v; long t; if (d.TryGetValue("LastUpdateCheck", out v) && long.TryParse(v, out t)) s.LastUpdateCheck = t; }
             { string v; if (d.TryGetValue("LastNotifiedVersion", out v)) s.LastNotifiedVersion = v; }
             s.HotKey = (Keys)I(d, "HotKey", (int)s.HotKey);
@@ -142,6 +144,7 @@ namespace Copixy
             sb.AppendLine("ToolsInMenu=" + ToolsInMenu);
             sb.AppendLine("UiSize=" + UiSize);
             sb.AppendLine("CheckUpdates=" + CheckUpdates);
+            sb.AppendLine("ShowHint=" + ShowHint);
             sb.AppendLine("LastUpdateCheck=" + LastUpdateCheck);
             sb.AppendLine("LastNotifiedVersion=" + LastNotifiedVersion);
             sb.AppendLine("HotKey=" + (int)HotKey);

@@ -711,6 +711,7 @@ namespace Copixy
 
         void UpdateHint(Point p)
         {
+            if (!S.ShowHint) { if (!hintRect.IsEmpty) { hintRect = Rectangle.Empty; Redraw(); } return; }
             var scr = Screen.FromPoint(new Point(p.X + vs.X, p.Y + vs.Y));
             Rectangle mon = scr.Bounds;
             mon.Offset(-vs.X, -vs.Y);
